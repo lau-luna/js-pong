@@ -142,7 +142,7 @@ function drawBall(ball) {
 
 function drawScore() {
     ctx.fillStyle = "white";
-    ctx.font = "24px sans-serif";
+    ctx.font = '32px "cyberpunkWaifus"';
     ctx.textAlign = "center";
     ctx.fillText(leftPlayer.score, width / 2 - width / 4, height / 2 - height / 3);
 
@@ -173,6 +173,30 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
+// Mouse listeners
+
+c.addEventListener('mouseover', () => {
+    c.style.cursor = "pointer";
+    c.addEventListener('click', () => {
+        if (!game.running) {
+            game.running = true;
+            startBall();
+        }
+    });
+});
+
+
+// custom fonts
+const font = new FontFace("cyberpunkWaifus", "url(./fonts/CyberpunkWaifus.ttf)");
+font.load().then(function (loadedFont) {
+    document.fonts.add(loadedFont);
+});
+
+const font2 = new FontFace("pixelLife", "url(./fonts/vcr.ttf)");
+font2.load().then(function (loadedFont) {
+    document.fonts.add(loadedFont);
+});
+
 function main() {
     // Siempre ejecutar requestAnimationFrame
     requestAnimationFrame(main);
@@ -181,10 +205,7 @@ function main() {
     ctx.fillStyle = "black";
     ctx.clearRect(0, 0, width, height);
     drawBackground();
-    drawPlayer(leftPlayer);
-    drawPlayer(rightPlayer);
-    drawBall(ball);
-    drawScore();
+
 
     if (game.running) {
         // Movimiento
@@ -233,10 +254,35 @@ function main() {
         score();
 
     } else {
+        ctx.fillStyle = "black";
+        ctx.fillRect(width / 2 - width / 4, height / 2 - height / 4, width / 2, height / 2);
+
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "white";
+        ctx.setLineDash([10, 5]);
+        ctx.strokeRect(width / 2 - width / 4, height / 2 - height / 4, width / 2, height / 2);
+
         ctx.fillStyle = "white";
-        ctx.font = "24px sans-serif";
+        let fontSize = width / 18;
+        ctx.font = `${fontSize}px pixelLife`;
         ctx.textAlign = "center";
-        ctx.fillText("press enter", width / 2, height / 2);
+        ctx.fillText("JS Pong", width / 2, height / 2 - height / 10);
+
+        ctx.fillStyle = "white";
+        fontSize = width / 30;
+        ctx.font = `${fontSize}px cyberpunkWaifus`;
+        ctx.textAlign = "center";
+        ctx.fillText("CLICK TO PLAY", width / 2, height / 2 + height / 8);
+
+        ctx.fillStyle = "white";
+        fontSize = width / 40;
+        ctx.font = `${fontSize}px cyberpunkWaifus`;
+        ctx.textAlign = "center";
+        ctx.fillText("by lau-luna on github", width / 2 + width / 4, height - height / 16);
+
+        drawPlayer(leftPlayer);
+        drawPlayer(rightPlayer);
+        drawBall(ball);
     }
 }
 
